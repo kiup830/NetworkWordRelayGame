@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -36,6 +37,7 @@ public class NPGamePage {
 	private int typing_user_idx = -1; //현재입력유저
 	private User current_player;
 	
+	private List<JPanel> users_panel = new ArrayList<>();
 	
 	private JLabel last_word; //끝말잇기 단어 
 	
@@ -100,6 +102,7 @@ public class NPGamePage {
 		word_input.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				users_panel.get((typing_user_idx-1) % user_list.size()).setBackground(new Color(230, 230, 230));
 				current_player.left_time = timer_bar.getValue();
 				
 				//System.out.println(current_player.getNickname() + " player left time : " + current_player.left_time);
@@ -127,7 +130,7 @@ public class NPGamePage {
 		int left_count = 6-size;
 		JPanel panel = new JPanel(new GridLayout(1,6));
 
-		for(User user : user_list) {
+		for(User user : user_list) { //유저프로필 생성
 			JPanel user_panel = new JPanel(new BorderLayout());
 			JPanel user_info = new JPanel();
 			user_info.setLayout(new BoxLayout(user_info, BoxLayout.Y_AXIS));
@@ -164,6 +167,7 @@ public class NPGamePage {
 			user_panel.add(createGap(100, 5, new Color(139, 200, 100)), BorderLayout.SOUTH);
 			
 			size--;
+			users_panel.add(user_info);
 			panel.add(user_panel);
 		}
 		
@@ -232,12 +236,13 @@ public class NPGamePage {
 		if(typing_user_idx == -1) typing_user_idx = 0; 
 		
 		current_player = user_list.get(typing_user_idx % user_list.size());
+		JPanel this_user = users_panel.get(typing_user_idx % user_list.size());
 	/*	System.out.println("idx : " + typing_user_idx);
 		System.out.println("% 연산 결과 : " + typing_user_idx % user_list.size());
 		System.out.println("현재 플레이어 : " + current_player.getNickname());*/
 		
 		if(current_player.left_time > 0) { //시간 남으면 타이머 흐름
-			timer_bar.setMaximum(current_player.left_time);
+			this_user.setBackground(new Color(225,0,0));
 			timer_bar.setValue(current_player.left_time);
 		}
 		typing_user_idx ++;
@@ -251,7 +256,6 @@ public class NPGamePage {
 				if(current_player.left_time > 0) {
 					current_player.left_time--;
 					timer_bar.setValue(current_player.left_time);
-					//이거 시간 계속 초기화되는 문제. 
 				}
 			}
 		}
