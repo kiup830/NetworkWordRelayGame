@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+//이거는 걍 테스트용 메인파일 신경쓰지 않으셔도 됩니다
 public class main {
 
 	public static void main(String[] args) {
