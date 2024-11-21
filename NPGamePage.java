@@ -33,7 +33,7 @@ public class NPGamePage {
 	//시간관련
 	private JProgressBar timer_bar;
 	private Timer timer;
-	private int typing_user_idx = -1;
+	private int typing_user_idx = -1; //현재입력유저
 	private User current_player;
 	
 	
@@ -100,6 +100,10 @@ public class NPGamePage {
 		word_input.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				current_player.left_time = timer_bar.getValue();
+				
+				//System.out.println(current_player.getNickname() + " player left time : " + current_player.left_time);
+				word_input.setText("");
 				updateUser();
 			}
 		});
@@ -213,7 +217,7 @@ public class NPGamePage {
 		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		
-		updateUser();
+		
 		timer.start();
 	}
 	
@@ -224,10 +228,14 @@ public class NPGamePage {
 	}
 	
 	/*----타이머 관련 부분---*/
-	private void updateUser() {
-		if(typing_user_idx == -1) typing_user_idx = 0;
+	public void updateUser() {
+		if(typing_user_idx == -1) typing_user_idx = 0; 
+		
 		current_player = user_list.get(typing_user_idx % user_list.size());
-
+	/*	System.out.println("idx : " + typing_user_idx);
+		System.out.println("% 연산 결과 : " + typing_user_idx % user_list.size());
+		System.out.println("현재 플레이어 : " + current_player.getNickname());*/
+		
 		if(current_player.left_time > 0) { //시간 남으면 타이머 흐름
 			timer_bar.setMaximum(current_player.left_time);
 			timer_bar.setValue(current_player.left_time);
@@ -239,11 +247,11 @@ public class NPGamePage {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(typing_user_idx % user_list.size() < user_list.size()) {
+				timer_bar.setMaximum(500);
 				if(current_player.left_time > 0) {
 					current_player.left_time--;
 					timer_bar.setValue(current_player.left_time);
-					
-					//이거 시간 계속 초기화되는 문제. 직접 변경이 안되는 것 같음
+					//이거 시간 계속 초기화되는 문제. 
 				}
 			}
 		}
