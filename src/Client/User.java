@@ -11,7 +11,14 @@ public class User {
 
 	// 기본 사용자 이미지 사용
 	private ImageIcon profile_pic = new ImageIcon(ImgPath);
-	public int left_time = 500; //타이머바 사이즈 가로가 500이라 50초
+	public int left_time = 500; //타이머바 사이즈 가로가 500이라 50초s
+	protected boolean status = false; //대기 여부
+
+
+	public User(String nickname) {
+		this.nickname = nickname;
+	}
+
 
 	// 점수 세팅
 	public int getScore() {
