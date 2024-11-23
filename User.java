@@ -4,7 +4,9 @@ public class User {
 	private String nickname;
 	private int score = 0;
 	private ImageIcon profile_pic = new ImageIcon(NPMainPage.class.getResource("images/characterImg.png"));
-	protected int left_time = 500; //타이머바 사이즈 가로가 500이라 50초
+	protected int left_time = 100; //시간 조절
+	protected boolean status = false; //대기 여부
+	
 	
 	public User(String nickname) {
 		this.nickname = nickname;
