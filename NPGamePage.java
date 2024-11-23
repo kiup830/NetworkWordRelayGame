@@ -102,18 +102,21 @@ public class NPGamePage {
 		word_input.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				users_panel.get((typing_user_idx-1) % user_list.size()).setBackground(new Color(230, 230, 230));
-				current_player.left_time = timer_bar.getValue();
-				
-				//System.out.println(current_player.getNickname() + " player left time : " + current_player.left_time);
-				word_input.setText("");
-				updateUser();
+				actionEnter();
 			}
 		});
 
 		return panel;	
 	}
 	
+	private void actionEnter() {
+		users_panel.get((typing_user_idx-1) % user_list.size()).setBackground(new Color(230, 230, 230));
+		current_player.left_time = timer_bar.getValue();
+		
+		System.out.println(current_player.getNickname() + " player left time : " + current_player.left_time);
+		word_input.setText("");
+		updateUser();
+	}
 	
 
 	
@@ -233,9 +236,26 @@ public class NPGamePage {
 	
 	/*----타이머 관련 부분---*/
 	public void updateUser() {
-		if(typing_user_idx == -1) typing_user_idx = 0; 
+		int user_check=0;
 		
+		if(typing_user_idx == -1) {
+			typing_user_idx = 0; 
+		}
 		current_player = user_list.get(typing_user_idx % user_list.size());
+		
+		 while (current_player.left_time <= 0) {
+		        typing_user_idx = (typing_user_idx + 1) % user_list.size();
+		        current_player = user_list.get(typing_user_idx);
+		        user_check++;
+
+		        //게임시간 다 끝나면
+		        if (user_check >= user_list.size()) {
+		            System.out.println("모든 사용자가 시간이 없습니다. 게임 종료.");
+		            timer.stop();
+		            return;
+		        }
+		    }
+		
 		JPanel this_user = users_panel.get(typing_user_idx % user_list.size());
 	/*	System.out.println("idx : " + typing_user_idx);
 		System.out.println("% 연산 결과 : " + typing_user_idx % user_list.size());
@@ -244,8 +264,9 @@ public class NPGamePage {
 		if(current_player.left_time > 0) { //시간 남으면 타이머 흐름
 			this_user.setBackground(new Color(225,0,0));
 			timer_bar.setValue(current_player.left_time);
-		}
+		} 
 		typing_user_idx ++;
+		
 	}
 	
 	private class TimerAction implements ActionListener{
@@ -256,6 +277,8 @@ public class NPGamePage {
 				if(current_player.left_time > 0) {
 					current_player.left_time--;
 					timer_bar.setValue(current_player.left_time);
+				}else {
+					actionEnter(); //시간없으면 자동넘김
 				}
 			}
 		}
