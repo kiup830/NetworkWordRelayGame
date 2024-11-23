@@ -15,7 +15,7 @@ public class User {
 	protected boolean status = false; //대기 여부
 
 
-	public User(String nickname) {
+	public User() {
 		this.nickname = nickname;
 	}
 

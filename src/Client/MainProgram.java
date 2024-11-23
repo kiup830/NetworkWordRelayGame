@@ -15,5 +15,9 @@ public class MainProgram {
 
         NPMainPage nmp = new NPMainPage(serverAddress, serverPort);
 
+        String title = "임시 대기방";
+        ArrayList<User> users = new ArrayList<>();
+
+        NPWaitPage nwp = new NPWaitPage(title,users);
     }
 }
