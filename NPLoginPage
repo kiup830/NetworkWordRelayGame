@@ -1,0 +1,137 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+public class NPLoginPage {
+	private User user;
+    private JButton btn_changeImage; 
+	
+    // 서버주소와 서버포트를 넣는 텍스트 필드
+    private JTextField t_userNickName = new JTextField(20);
+    private JTextField t_serverAddress = new JTextField(20);
+    private JTextField t_serverPort = new JTextField(20);
+    
+    private JButton login = new JButton(" 로그인 ");
+
+    
+	public void buildGUI() {
+		JFrame frame = new JFrame("게임제목");
+		
+		frame.add(createProfile());
+		
+		
+		frame.setBounds(100,200,1000,600); //위치&사이즈
+		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}
+	
+	public JPanel createProfile() { //내정보패널
+		JPanel panel = new JPanel(new BorderLayout());
+		JPanel user_info = new JPanel(); //유저사진, 닉네임
+		JLabel title= new JLabel("로그인 화면");
+		JLabel nickname = new JLabel("닉네임");
+
+		
+		panel.setBackground(new Color(255,250,240));  //하나 색 바꾸면 밑에꺼도 같이 바꿔주기
+		user_info.setBackground(new Color(255,250,240));
+		
+		//제일 위에 제목 표시부분
+		title.setFont(new Font("맑은 고딕", Font.PLAIN, 24));
+		title.setHorizontalAlignment(SwingConstants.CENTER); //가운데정렬
+        title.setVerticalAlignment(SwingConstants.CENTER); //가운데정렬
+
+        //사진크기 조절부분
+        ImageIcon defaultImage = new ImageIcon(getClass().getResource("/images/default.png"));
+		Image scaled_pic = defaultImage.getImage().getScaledInstance(150,150,Image.SCALE_SMOOTH); //사이즈조절
+	//	user.setProfilePic(new ImageIcon(scaled_pic)); //사이즈 조절 된 프로필사진
+		JLabel profile_img = new JLabel(new ImageIcon(scaled_pic));
+		
+		
+		//버튼 크기 조절
+		btn_changeImage = new JButton("프로필 이미지 변경");
+		btn_changeImage.setMaximumSize(new Dimension(150, 30));
+		
+		user_info.setLayout(new BoxLayout(user_info, BoxLayout.Y_AXIS));
+		user_info.add(Box.createRigidArea(new Dimension(0, 10))); //간격 추가
+
+		user_info.add(profile_img);
+		profile_img.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		user_info.add(Box.createRigidArea(new Dimension(0, 10))); //간격 추가
+		user_info.add(btn_changeImage);
+		btn_changeImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+		user_info.add(Box.createRigidArea(new Dimension(0, 20))); //간격 추가
+
+		
+		
+		//입력패널 : 닉네임 / 서버주소 / 포트번호
+		
+		JPanel input= new JPanel();
+		input.setLayout(new BoxLayout(input, BoxLayout.Y_AXIS));
+		input.add(createInputPanel("닉네임 ", t_userNickName));
+		input.add(Box.createRigidArea(new Dimension(0, 10))); //간격 추가
+
+		input.add(createInputPanel("서버주소", t_serverAddress));
+		input.add(Box.createRigidArea(new Dimension(0, 10))); //간격 추가
+		
+		input.add(createInputPanel("포트번호", t_serverPort));
+		input.add(Box.createRigidArea(new Dimension(0, 10))); //간격 추가
+
+
+		title.setPreferredSize(new Dimension(200,40)); //제목부분 영역크기 설정
+		panel.add(title, BorderLayout.NORTH);
+		user_info.add(input);
+		panel.add(user_info, BorderLayout.CENTER);
+		panel.add(login, BorderLayout.SOUTH);
+		
+		login.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				user.setNickname(t_userNickName.getText());
+				user.setServerAddress(t_serverAddress.getText());
+				user.setServerPort(Integer.parseInt(t_serverPort.getText()));
+			}
+			
+		});
+		
+		return panel;
+	}
+	
+	public JPanel createInputPanel(String name, JTextField field) {
+		JPanel panel = new JPanel();
+		JLabel name_label = new JLabel(name);
+		
+		panel.setBackground(new Color(255,250,240));
+		
+		name_label.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		name_label.setHorizontalAlignment(SwingConstants.CENTER); //가운데정렬
+        name_label.setVerticalAlignment(SwingConstants.CENTER); //가운데정렬
+        
+		panel.add(name_label);
+		panel.add(field);
+			
+		return panel;
+	}
+	 
+	 public NPLoginPage() {
+		 buildGUI();
+	 }
+}
