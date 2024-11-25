@@ -20,7 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class NPLoginPage {
-	private User user;
+	private User user ;
     private JButton btn_changeImage; 
 	
     // 서버주소와 서버포트를 넣는 텍스트 필드
@@ -105,9 +105,14 @@ public class NPLoginPage {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String server_address = t_serverAddress.getText();
+				int port_num = Integer.parseInt(t_serverPort.getText());
+				user = new User(server_address,port_num);
 				user.setNickname(t_userNickName.getText());
-				user.setServerAddress(t_serverAddress.getText());
-				user.setServerPort(Integer.parseInt(t_serverPort.getText()));
+				
+			/*	System.out.println("닉네임 : " + user.getNickname());
+				System.out.println("server Addr : " + user.getServerAddress());
+				System.out.println("포트 : " + user.getServerPort());*/
 			}
 			
 		});
