@@ -1,5 +1,7 @@
 package Client;
 
+
+
 import java.util.ArrayList;
 
 
@@ -9,15 +11,16 @@ public class MainProgram {
 
 
 
-
+        // Client측 코드
         String serverAddress = "localhost";
         int serverPort = 54321;
 
-        NPMainPage nmp = new NPMainPage(serverAddress, serverPort);
+        //NPMainPage02 mainPage = new NPMainPage02(serverAddress, serverPort);
 
-        String title = "임시 대기방";
-        ArrayList<User> users = new ArrayList<>();
 
-        NPWaitPage nwp = new NPWaitPage(title,users);
+        NPGamePage gamePage = new NPGamePage();
+
+
+
     }
 }

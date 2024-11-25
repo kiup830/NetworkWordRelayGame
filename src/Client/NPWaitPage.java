@@ -28,6 +28,8 @@ public class NPWaitPage {
     private String room_title;
     private List<User> user_list;
 
+    private User boss;
+
 
     private JTextField chatting_input;
 
@@ -174,9 +176,11 @@ public class NPWaitPage {
 
     }
 
-    public NPWaitPage(String title, List<User> user_list) {
-        this.room_title = title;
-        this.user_list = user_list;
+    public NPWaitPage(User user) {
+
+        // 입장과 동시에 방장이 되고 유저 리스트의 첫번째 멤버가 방장이다.
+        this.boss = user;
+        user_list.add(boss);
         buildGUI();
     }
 }

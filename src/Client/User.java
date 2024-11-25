@@ -1,22 +1,43 @@
 package Client;
 
 import javax.swing.ImageIcon;
+import java.io.File;
 
 public class User {
 
 	private String nickname;
+	private String serverAddress;
+	private int serverPort;
+
 	private int score = 0;
 
-	private String ImgPath = "images/moremi.png";
+	private File imgFile;
 
 	// 기본 사용자 이미지 사용
-	private ImageIcon profile_pic = new ImageIcon(ImgPath);
+	private ImageIcon profile_pic;
 	public int left_time = 500; //타이머바 사이즈 가로가 500이라 50초s
 	protected boolean status = false; //대기 여부
 
 
-	public User() {
-		this.nickname = nickname;
+	public User(String serverAddress, int serverPort) {
+
+		int num = (int)(Math.ceil(Math.random()*100));
+		this.nickname = "user" + num;
+
+		imgFile = new File("C:\\NetworkProgramming\\NetworkWordRelayGame\\images\\moremi.png");
+		if (imgFile.exists()) {
+			System.out.println("이미지 파일이 존재합니다.");
+		} else {
+			System.out.println("이미지 파일이 존재하지 않습니다.");
+		}
+
+		this.serverAddress = serverAddress;
+		this.serverPort = serverPort;
+
+		this.profile_pic = new ImageIcon(imgFile.getAbsolutePath());
+
+
+
 	}
 
 
@@ -42,5 +63,13 @@ public class User {
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+
+	public String getServerAddress() {
+		return serverAddress;
+	}
+
+	public int getServerPort() {
+		return serverPort;
 	}
 }

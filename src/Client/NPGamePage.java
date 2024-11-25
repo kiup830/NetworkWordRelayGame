@@ -131,7 +131,7 @@ public class NPGamePage {
 	}
 	
 	private JPanel createUserProfiles() { //개인유저창 : 사진/ 닉네임 / 점수
-		int size = user_list.size();
+		int size = 12;
 		int left_count = 6-size;
 		JPanel panel = new JPanel(new GridLayout(1,6));
 
@@ -230,9 +230,8 @@ public class NPGamePage {
 		timer.start();
 	}
 	
-	public NPGamePage(String title, int user_list) {
-		this.room_title = title;
-		//this.user_list = user_list;
+	public NPGamePage() {
+
 		buildGUI();
 	}
 	
